@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Satisfação - CEU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ff0000;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0078d4;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .checkbox-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .radio-group {
+            margin-top: 5px;
+        }
+        
+        .radio-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .radio-item label {
+            margin: 0;
+            font-weight: normal;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 25px 0 15px 0;
+        }
+        
+        .btn-submit {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            min-width: 200px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background-color: #005a9e;
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .required-mark {
+            color: #ff0000;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+        
+        .user-email {
+            color: #0078d4;
+        }
+        
+        .not-shared {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho com informações do usuário -->
+        <div class="user-info">
+            <span class="user-email">leonardo.missio@integra-br.com</span>
+            <span class="not-shared">Não compartilhado</span>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Pesquisa de Satisfação - CEU xxx - 02/2026 [TESTE]</h1>
+            <p>Olá! Estamos fazendo uma Pesquisa de Satisfação sobre infraestrutura e manutenção do espaço do CEU. Gostaria de responder rapidamente?</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Formulário -->
+        <form id="pesquisaForm">
+            <!-- NOME ENTREVISTADOR -->
+            <div class="form-group">
+                <label class="required">NOME ENTREVISTADOR [insira seu nome]</label>
+                <input type="text" id="entrevistador" name="entrevistador" placeholder="Sua resposta" required>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- IDENTIFICAÇÃO DO RESPONDENTE -->
+            <div class="section-title">IDENTIFICAÇÃO DO RESPONDENTE</div>
+
+            <!-- PÚBLICO ESCOLAR -->
+            <div class="form-group">
+                <label>PÚBLICO ESCOLAR: Qual setor e departamento? / USUÁRIO: Qual atividade praticada?</label>
+                <div class="checkbox-group" id="publicoEscolar">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="alimentacao" name="publico" value="ALIMENTAÇÃO ESCOLAR (Cozinha)">
+                        <label for="alimentacao">ALIMENTAÇÃO ESCOLAR (Cozinha)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="emefSecretaria" name="publico" value="EMEF - Secretaria/Diretoria">
+                        <label for="emefSecretaria">EMEF - Secretaria/Diretoria</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="emefProfessores" name="publico" value="EMEF - Professores, assistentes e auxiliares">
+                        <label for="emefProfessores">EMEF - Professores, assistentes e auxiliares</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ciejaSecretaria" name="publico" value="CIEJA - Secretaria/Diretoria">
+                        <label for="ciejaSecretaria">CIEJA - Secretaria/Diretoria</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ciejaProfessores" name="publico" value="CIEJA - Professores, assistentes e auxiliares">
+                        <label for="ciejaProfessores">CIEJA - Professores, assistentes e auxiliares</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="coceu" name="publico" value="COCEU">
+                        <label for="coceu">COCEU</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="comunitario" name="publico" value="COMUNITÁRIO - Bebeteca | Coworking | Avança Tech | Telecentro">
+                        <label for="comunitario">COMUNITÁRIO - Bebeteca | Coworking | Avança Tech | Telecentro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="esporteProfessor" name="publico" value="ESPORTE - Professor">
+                        <label for="esporteProfessor">ESPORTE - Professor</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="esporteAluno" name="publico" value="ESPORTE - Aluno">
+                        <label for="esporteAluno">ESPORTE - Aluno</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="lazer" name="publico" value="LAZER - Piscinas, quadra de skate, quadras, etc">
+                        <label for="lazer">LAZER - Piscinas, quadra de skate, quadras, etc</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="outro" name="publico" value="Outro">
+                        <label for="outro">Outro</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETALHAMENTO -->
+            <div class="form-group">
+                <label>Detalhar - cargo, tipo de aula, etc (opcional)</label>
+                <textarea id="detalhamento" name="detalhamento" placeholder="Sua resposta"></textarea>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- FREQUÊNCIA -->
+            <div class="form-group">
+                <label class="required">Frequência com que você vem ao CEU?</label>
+                <div class="radio-group" id="frequencia">
+                    <div class="radio-item">
+                        <input type="radio" id="todosDias" name="frequencia" value="Todos ou quase todos os dias" required>
+                        <label for="todosDias">Todos ou quase todos os dias</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="umaTresSemana" name="frequencia" value="1 a 3 vezes por semana">
+                        <label for="umaTresSemana">1 a 3 vezes por semana</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="umaTresMes" name="frequencia" value="1 a 3 vezes por mês">
+                        <label for="umaTresMes">1 a 3 vezes por mês</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="menosVezMes" name="frequencia" value="Menos de 1 vez por mês">
+                        <label for="menosVezMes">Menos de 1 vez por mês</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEMPO -->
+            <div class="form-group">
+                <label class="required">Há quanto tempo você frequenta/trabalha neste CEU?</label>
+                <div class="radio-group" id="tempo">
+                    <div class="radio-item">
+                        <input type="radio" id="primeiraVez" name="tempo" value="Primeira vez" required>
+                        <label for="primeiraVez">Primeira vez</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="menos3Meses" name="tempo" value="Menos de 3 meses">
+                        <label for="menos3Meses">Menos de 3 meses</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tresSeisMeses" name="tempo" value="De 3 a 6 meses">
+                        <label for="tresSeisMeses">De 3 a 6 meses</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="seisUmAno" name="tempo" value="De 6 meses a 1 ano">
+                        <label for="seisUmAno">De 6 meses a 1 ano</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Informação de campo obrigatório -->
+            <div class="info-text">
+                <span class="required-mark">*</span> Indica uma pergunta obrigatória
+            </div>
+
+            <!-- Botão Enviar -->
+            <button type="submit" class="btn-submit">ENVIAR RESPOSTA</button>
+        </form>
+    </div>
+
+    <!-- Script para processar o formulário -->
+    <script>
+        document.getElementById('pesquisaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Capturar parâmetro da URL (unidade)
+            const urlParams = new URLSearchParams(window.location.search);
+            const unidade = urlParams.get('unidade') || 'CEU não especificado';
+            
+            // Coletar dados do formulário
+            const entrevistador = document.getElementById('entrevistador').value;
+            
+            // Coletar checkboxes marcados
+            const checkboxes = document.querySelectorAll('input[name="publico"]:checked');
+            const publicoSelecionado = Array.from(checkboxes).map(cb => cb.value).join('; ');
+            
+            const detalhamento = document.getElementById('detalhamento').value;
+            
+            // Coletar radio buttons
+            const frequencia = document.querySelector('input[name="frequencia"]:checked')?.value || '';
+            const tempo = document.querySelector('input[name="tempo"]:checked')?.value || '';
+            
+            // Validar campos obrigatórios
+            if (!entrevistador || !frequencia || !tempo) {
+                alert('Por favor, preencha todos os campos obrigatórios (*)');
+                return;
+            }
+            
+            // Criar objeto com os dados
+            const dados = {
+                entrevistador: entrevistador,
+                unidade: unidade,
+                publicoEscolar: publicoSelecionado,
+                detalhamento: detalhamento,
+                frequencia: frequencia,
+                tempo: tempo,
+                dataResposta: new Date().toLocaleString('pt-BR'),
+                status: 'Completo'
+            };
+            
+            // Mostrar dados no console (para teste)
+            console.log('Dados enviados:', dados);
+            
+            // Aqui você pode enviar para um servidor, planilha, etc.
+            // Exemplo: salvar no localStorage (temporário)
+            let respostas = JSON.parse(localStorage.getItem('respostasCEU') || '[]');
+            respostas.push(dados);
+            localStorage.setItem('respostasCEU', JSON.stringify(respostas));
+            
+            // Mensagem de sucesso
+            alert('Resposta enviada com sucesso!');
+            
+            // Limpar formulário
+            this.reset();
+            
+            // Mostrar a unidade que veio da URL
+            if (unidade !== 'CEU não especificado') {
+                console.log('Unidade capturada da URL:', unidade);
+            }
+        });
+
+        // Pré-preencher unidade da URL (se existir)
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const unidade = urlParams.get('unidade');
+            
+            if (unidade) {
+                // Criar um elemento oculto para mostrar a unidade (opcional)
+                const infoUnidade = document.createElement('div');
+                infoUnidade.style.backgroundColor = '#e6f2ff';
+                infoUnidade.style.padding = '10px';
+                infoUnidade.style.borderRadius = '4px';
+                infoUnidade.style.marginBottom = '20px';
+                infoUnidade.style.fontSize = '14px';
+                infoUnidade.style.color = '#0078d4';
+                infoUnidade.style.border = '1px solid #0078d4';
+                infoUnidade.innerHTML = `🔒 Unidade: <strong>${unidade.replace(/\+/g, ' ')}</strong> (campo bloqueado)`;
+                
+                // Inserir no topo do formulário
+                const form = document.getElementById('pesquisaForm');
+                form.insertBefore(infoUnidade, form.firstChild);
+            }
+        });
+
+        // Função para ver respostas salvas (útil para debug)
+        function verRespostas() {
+            const respostas = JSON.parse(localStorage.getItem('respostasCEU') || '[]');
+            console.log('Todas as respostas:', respostas);
+        }
+    </script>
+</body>
+</html>
