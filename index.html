@@ -200,6 +200,14 @@
         .not-shared {
             color: #999;
         }
+        
+        #status {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -345,11 +353,18 @@
 
             <!-- Botão Enviar -->
             <button type="submit" class="btn-submit">ENVIAR RESPOSTA</button>
+            
+            <!-- Área de status (será preenchida pelo JavaScript) -->
+            <div id="status"></div>
         </form>
     </div>
 
-    <!-- Script para processar o formulário -->
     <script>
+        // ============================================
+        // URL DO GOOGLE APPS SCRIPT (INSERIDA POR VOCÊ)
+        // ============================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx_wisRS2g_UeIvwbEeENpGx6sMsZ-jEU6kxAvkzI4CenDlPSVCdshc4u7HGtP4CI3JuA/exec';
+        
         document.getElementById('pesquisaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -376,46 +391,48 @@
                 return;
             }
             
-            // Criar objeto com os dados
-            const dados = {
-                entrevistador: entrevistador,
-                unidade: unidade,
-                publicoEscolar: publicoSelecionado,
-                detalhamento: detalhamento,
-                frequencia: frequencia,
-                tempo: tempo,
-                dataResposta: new Date().toLocaleString('pt-BR'),
-                status: 'Completo'
-            };
+            // MOSTRAR STATUS DE ENVIO
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '⏳ Enviando...';
+            statusDiv.style.color = 'blue';
+            statusDiv.style.backgroundColor = '#e6f2ff';
+            statusDiv.style.padding = '10px';
             
-            // Mostrar dados no console (para teste)
-            console.log('Dados enviados:', dados);
+            // Preparar dados para envio
+            const formData = new URLSearchParams();
+            formData.append('entrevistador', entrevistador);
+            formData.append('unidade', unidade);
+            formData.append('publico', publicoSelecionado);
+            formData.append('detalhamento', detalhamento);
+            formData.append('frequencia', frequencia);
+            formData.append('tempo', tempo);
             
-            // Aqui você pode enviar para um servidor, planilha, etc.
-            // Exemplo: salvar no localStorage (temporário)
-            let respostas = JSON.parse(localStorage.getItem('respostasCEU') || '[]');
-            respostas.push(dados);
-            localStorage.setItem('respostasCEU', JSON.stringify(respostas));
-            
-            // Mensagem de sucesso
-            alert('Resposta enviada com sucesso!');
-            
-            // Limpar formulário
-            this.reset();
-            
-            // Mostrar a unidade que veio da URL
-            if (unidade !== 'CEU não especificado') {
-                console.log('Unidade capturada da URL:', unidade);
-            }
+            // Enviar para o Google Sheets via Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'  // Importante para CORS
+            })
+            .then(() => {
+                statusDiv.innerHTML = '✅ Resposta enviada com sucesso!';
+                statusDiv.style.color = 'green';
+                statusDiv.style.backgroundColor = '#e6ffe6';
+                this.reset(); // Limpar formulário
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                statusDiv.innerHTML = '❌ Erro ao enviar. Tente novamente.';
+                statusDiv.style.color = 'red';
+                statusDiv.style.backgroundColor = '#ffe6e6';
+            });
         });
-
+        
         // Pré-preencher unidade da URL (se existir)
         window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const unidade = urlParams.get('unidade');
             
             if (unidade) {
-                // Criar um elemento oculto para mostrar a unidade (opcional)
                 const infoUnidade = document.createElement('div');
                 infoUnidade.style.backgroundColor = '#e6f2ff';
                 infoUnidade.style.padding = '10px';
@@ -426,16 +443,14 @@
                 infoUnidade.style.border = '1px solid #0078d4';
                 infoUnidade.innerHTML = `🔒 Unidade: <strong>${unidade.replace(/\+/g, ' ')}</strong> (campo bloqueado)`;
                 
-                // Inserir no topo do formulário
                 const form = document.getElementById('pesquisaForm');
                 form.insertBefore(infoUnidade, form.firstChild);
             }
         });
 
-        // Função para ver respostas salvas (útil para debug)
+        // Função para ver respostas salvas no console (útil para debug)
         function verRespostas() {
-            const respostas = JSON.parse(localStorage.getItem('respostasCEU') || '[]');
-            console.log('Todas as respostas:', respostas);
+            console.log('URL do Script:', scriptURL);
         }
     </script>
 </body>
