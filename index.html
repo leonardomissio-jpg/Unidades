@@ -1,461 +1,87 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa de Satisfação - CEU</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .header h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        .divider {
-            height: 1px;
-            background-color: #ddd;
-            margin: 20px 0;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .required::after {
-            content: " *";
-            color: #ff0000;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #0078d4;
-        }
-        
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .checkbox-group {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .checkbox-item {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .checkbox-item label {
-            margin: 0;
-            font-weight: normal;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .radio-group {
-            margin-top: 5px;
-        }
-        
-        .radio-item {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .radio-item input[type="radio"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .radio-item label {
-            margin: 0;
-            font-weight: normal;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin: 25px 0 15px 0;
-        }
-        
-        .btn-submit {
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 4px;
-            cursor: pointer;
-            display: block;
-            margin: 30px auto 0;
-            min-width: 200px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-submit:hover {
-            background-color: #005a9e;
-        }
-        
-        .info-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        .required-mark {
-            color: #ff0000;
-            font-size: 12px;
-            margin-left: 5px;
-        }
-        
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 10px;
-            padding: 5px 0;
-        }
-        
-        .user-email {
-            color: #0078d4;
-        }
-        
-        .not-shared {
-            color: #999;
-        }
-        
-        #status {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 4px;
-        }
-    </style>
+    <title>Dashboard - Pesquisa CEU</title>
+    <!-- TailwindCSS para deixar o visual bonito -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <!-- Cabeçalho com informações do usuário -->
-        <div class="user-info">
-            <span class="user-email">leonardo.missio@integra-br.com</span>
-            <span class="not-shared">Não compartilhado</span>
+<body class="bg-gray-100 p-8 font-sans">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8 text-blue-800">Resultados da Pesquisa CEU</h1>
+        
+        <!-- Cards de Resumo -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-blue-500">
+                <h3 class="text-gray-500 text-sm font-semibold uppercase tracking-wider">Total de Entrevistas</h3>
+                <p id="total-respostas" class="text-4xl font-bold text-gray-800 mt-2">...</p>
+            </div>
         </div>
 
-        <!-- Header -->
-        <div class="header">
-            <h1>Pesquisa de Satisfação - CEU xxx - 02/2026 [TESTE]</h1>
-            <p>Olá! Estamos fazendo uma Pesquisa de Satisfação sobre infraestrutura e manutenção do espaço do CEU. Gostaria de responder rapidamente?</p>
+        <!-- Tabela de Dados -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entrevistador</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relação CEU</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Frequência</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">Carregando dados da planilha do Google...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <div class="divider"></div>
-
-        <!-- Formulário -->
-        <form id="pesquisaForm">
-            <!-- NOME ENTREVISTADOR -->
-            <div class="form-group">
-                <label class="required">NOME ENTREVISTADOR [insira seu nome]</label>
-                <input type="text" id="entrevistador" name="entrevistador" placeholder="Sua resposta" required>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- IDENTIFICAÇÃO DO RESPONDENTE -->
-            <div class="section-title">IDENTIFICAÇÃO DO RESPONDENTE</div>
-
-            <!-- PÚBLICO ESCOLAR -->
-            <div class="form-group">
-                <label>PÚBLICO ESCOLAR: Qual setor e departamento? / USUÁRIO: Qual atividade praticada?</label>
-                <div class="checkbox-group" id="publicoEscolar">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="alimentacao" name="publico" value="ALIMENTAÇÃO ESCOLAR (Cozinha)">
-                        <label for="alimentacao">ALIMENTAÇÃO ESCOLAR (Cozinha)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="emefSecretaria" name="publico" value="EMEF - Secretaria/Diretoria">
-                        <label for="emefSecretaria">EMEF - Secretaria/Diretoria</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="emefProfessores" name="publico" value="EMEF - Professores, assistentes e auxiliares">
-                        <label for="emefProfessores">EMEF - Professores, assistentes e auxiliares</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="ciejaSecretaria" name="publico" value="CIEJA - Secretaria/Diretoria">
-                        <label for="ciejaSecretaria">CIEJA - Secretaria/Diretoria</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="ciejaProfessores" name="publico" value="CIEJA - Professores, assistentes e auxiliares">
-                        <label for="ciejaProfessores">CIEJA - Professores, assistentes e auxiliares</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="coceu" name="publico" value="COCEU">
-                        <label for="coceu">COCEU</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="comunitario" name="publico" value="COMUNITÁRIO - Bebeteca | Coworking | Avança Tech | Telecentro">
-                        <label for="comunitario">COMUNITÁRIO - Bebeteca | Coworking | Avança Tech | Telecentro</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="esporteProfessor" name="publico" value="ESPORTE - Professor">
-                        <label for="esporteProfessor">ESPORTE - Professor</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="esporteAluno" name="publico" value="ESPORTE - Aluno">
-                        <label for="esporteAluno">ESPORTE - Aluno</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="lazer" name="publico" value="LAZER - Piscinas, quadra de skate, quadras, etc">
-                        <label for="lazer">LAZER - Piscinas, quadra de skate, quadras, etc</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="outro" name="publico" value="Outro">
-                        <label for="outro">Outro</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DETALHAMENTO -->
-            <div class="form-group">
-                <label>Detalhar - cargo, tipo de aula, etc (opcional)</label>
-                <textarea id="detalhamento" name="detalhamento" placeholder="Sua resposta"></textarea>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- FREQUÊNCIA -->
-            <div class="form-group">
-                <label class="required">Frequência com que você vem ao CEU?</label>
-                <div class="radio-group" id="frequencia">
-                    <div class="radio-item">
-                        <input type="radio" id="todosDias" name="frequencia" value="Todos ou quase todos os dias" required>
-                        <label for="todosDias">Todos ou quase todos os dias</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="umaTresSemana" name="frequencia" value="1 a 3 vezes por semana">
-                        <label for="umaTresSemana">1 a 3 vezes por semana</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="umaTresMes" name="frequencia" value="1 a 3 vezes por mês">
-                        <label for="umaTresMes">1 a 3 vezes por mês</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="menosVezMes" name="frequencia" value="Menos de 1 vez por mês">
-                        <label for="menosVezMes">Menos de 1 vez por mês</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TEMPO -->
-            <div class="form-group">
-                <label class="required">Há quanto tempo você frequenta/trabalha neste CEU?</label>
-                <div class="radio-group" id="tempo">
-                    <div class="radio-item">
-                        <input type="radio" id="primeiraVez" name="tempo" value="Primeira vez" required>
-                        <label for="primeiraVez">Primeira vez</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="menos3Meses" name="tempo" value="Menos de 3 meses">
-                        <label for="menos3Meses">Menos de 3 meses</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="tresSeisMeses" name="tempo" value="De 3 a 6 meses">
-                        <label for="tresSeisMeses">De 3 a 6 meses</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="seisUmAno" name="tempo" value="De 6 meses a 1 ano">
-                        <label for="seisUmAno">De 6 meses a 1 ano</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Informação de campo obrigatório -->
-            <div class="info-text">
-                <span class="required-mark">*</span> Indica uma pergunta obrigatória
-            </div>
-
-            <!-- Botão Enviar -->
-            <button type="submit" class="btn-submit">ENVIAR RESPOSTA</button>
-            
-            <!-- Área de status (será preenchida pelo JavaScript) -->
-            <div id="status"></div>
-        </form>
     </div>
 
     <script>
-        // ============================================
-        // URL DO GOOGLE APPS SCRIPT (INSERIDA POR VOCÊ)
-        // ============================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbz3x07Qh3mEvrZGNvUN1pwuhDvbebtrNZaEqMIGdnfb4-cSqWDuQdbahK2qtkzDhcEBxg/exec';
-        
-        document.getElementById('pesquisaForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Capturar parâmetro da URL (unidade)
-            const urlParams = new URLSearchParams(window.location.search);
-            const unidade = urlParams.get('unidade') || 'CEU não especificado';
-            
-            // Coletar dados do formulário
-            const entrevistador = document.getElementById('entrevistador').value;
-            
-            // Coletar checkboxes marcados
-            const checkboxes = document.querySelectorAll('input[name="publico"]:checked');
-            const publicoSelecionado = Array.from(checkboxes).map(cb => cb.value).join('; ');
-            
-            const detalhamento = document.getElementById('detalhamento').value;
-            
-            // Coletar radio buttons
-            const frequencia = document.querySelector('input[name="frequencia"]:checked')?.value || '';
-            const tempo = document.querySelector('input[name="tempo"]:checked')?.value || '';
-            
-            // Validar campos obrigatórios
-            if (!entrevistador || !frequencia || !tempo) {
-                alert('Por favor, preencha todos os campos obrigatórios (*)');
-                return;
-            }
-            
-            // MOSTRAR STATUS DE ENVIO
-            const statusDiv = document.getElementById('status');
-            statusDiv.innerHTML = '⏳ Enviando...';
-            statusDiv.style.color = 'blue';
-            statusDiv.style.backgroundColor = '#e6f2ff';
-            statusDiv.style.padding = '10px';
-            
-            // Preparar dados para envio
-            const formData = new URLSearchParams();
-            formData.append('entrevistador', entrevistador);
-            formData.append('unidade', unidade);
-            formData.append('publico', publicoSelecionado);
-            formData.append('detalhamento', detalhamento);
-            formData.append('frequencia', frequencia);
-            formData.append('tempo', tempo);
-            
-            // Enviar para o Google Sheets via Apps Script
-            fetch(scriptURL, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'  // Importante para CORS
-            })
-            .then(() => {
-                statusDiv.innerHTML = '✅ Resposta enviada com sucesso!';
-                statusDiv.style.color = 'green';
-                statusDiv.style.backgroundColor = '#e6ffe6';
-                this.reset(); // Limpar formulário
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                statusDiv.innerHTML = '❌ Erro ao enviar. Tente novamente.';
-                statusDiv.style.color = 'red';
-                statusDiv.style.backgroundColor = '#ffe6e6';
-            });
-        });
-        
-        // Pré-preencher unidade da URL (se existir)
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const unidade = urlParams.get('unidade');
-            
-            if (unidade) {
-                const infoUnidade = document.createElement('div');
-                infoUnidade.style.backgroundColor = '#e6f2ff';
-                infoUnidade.style.padding = '10px';
-                infoUnidade.style.borderRadius = '4px';
-                infoUnidade.style.marginBottom = '20px';
-                infoUnidade.style.fontSize = '14px';
-                infoUnidade.style.color = '#0078d4';
-                infoUnidade.style.border = '1px solid #0078d4';
-                infoUnidade.innerHTML = `🔒 Unidade: <strong>${unidade.replace(/\+/g, ' ')}</strong> (campo bloqueado)`;
-                
-                const form = document.getElementById('pesquisaForm');
-                form.insertBefore(infoUnidade, form.firstChild);
-            }
-        });
+        // ATENÇÃO: COLOQUE AQUI A URL QUE VOCÊ COPIOU DO APPS SCRIPT NO PASSO 2
+        const API_URL = 'COLE_AQUI_O_SEU_URL_DO_WEB_APP_DO_GOOGLE';
 
-        // Função para ver respostas salvas no console (útil para debug)
-        function verRespostas() {
-            console.log('URL do Script:', scriptURL);
+        async function carregarDados() {
+            try {
+                const response = await fetch(API_URL);
+                const dados = await response.json();
+                
+                document.getElementById('total-respostas').textContent = dados.length;
+                
+                const tbody = document.getElementById('tabela-corpo');
+                tbody.innerHTML = ''; 
+                
+                if (dados.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">Nenhuma resposta encontrada.</td></tr>';
+                    return;
+                }
+
+                // Inverte para exibir as entrevistas mais novas primeiro
+                dados.reverse().forEach(linha => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50 transition-colors';
+                    
+                    // As chaves precisam ser EXATAMENTE os nomes das colunas da planilha
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Carimbo de data/hora'] || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${linha['NOME ENTREVISTADOR [insira seu nome]'] || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Qual sua relação com o CEU:'] || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Frequência com que você vem ao CEU?'] || '-'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                document.getElementById('tabela-corpo').innerHTML = `
+                    <tr><td colspan="4" class="px-6 py-4 text-center text-red-500 font-medium">Erro ao carregar os dados. Verifique a URL do Google.</td></tr>
+                `;
+            }
         }
-    </script>
-</body>
-</html>
-        }
+
+        carregarDados();
     </script>
 </body>
 </html>
