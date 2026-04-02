@@ -2,24 +2,78 @@
 <html>
 <head>
   <title>Leitor de Faturas</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>📊 Leitor de Faturas</h1>
+<h2>📄 Upload de Faturas</h2>
 
-  <div class="upload-box">
-    <input type="file" id="files" multiple>
-    <button onclick="processar()">Processar</button>
-  </div>
+<input type="file" id="files" multiple>
+<br><br>
 
-  <p id="status"></p>
-</div>
+<button onclick="processar()">Processar</button>
+
+<p id="status"></p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="script.js"></script>
+
+<script>
+async function processar() {
+  const status = document.getElementById("status");
+  const files = document.getElementById("files").files;
+
+  if (files.length === 0) {
+    alert("Selecione um PDF!");
+    return;
+  }
+
+  status.innerText = "⏳ Processando...";
+
+  let dados = [];
+
+  try {
+    for (let file of files) {
+
+      const arrayBuffer = await file.arrayBuffer();
+
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+      let texto = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const pagina = await pdf.getPage(i);
+        const conteudo = await pagina.getTextContent();
+
+        texto += conteudo.items.map(item => item.str).join(" ");
+      }
+
+      console.log(texto); // 👈 IMPORTANTE (debug)
+
+      let valor = texto.match(/R\$ ?\d+[.,]\d+/);
+      let data = texto.match(/\d{2}\/\d{2}\/\d{4}/);
+
+      dados.push({
+        arquivo: file.name,
+        valor: valor ? valor[0] : "",
+        data: data ? data[0] : ""
+      });
+    }
+
+    const ws = XLSX.utils.json_to_sheet(dados);
+    const wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, "Faturas");
+
+    XLSX.writeFile(wb, "resultado.xlsx");
+
+    status.innerText = "✅ Concluído!";
+
+  } catch (erro) {
+    console.error(erro);
+    status.innerText = "❌ Erro ao processar (abra o console F12)";
+  }
+}
+</script>
 
 </body>
 </html>
