@@ -1,0 +1,22 @@
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  text-align: center;
+}
+
+.container {
+  margin-top: 80px;
+}
+
+.upload-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
