@@ -1,6 +1,6 @@
 async function processar() {
-  const files = document.getElementById('files').files;
   const status = document.getElementById('status');
+  const files = document.getElementById('files').files;
 
   status.innerText = "⏳ Processando...";
 
@@ -18,46 +18,57 @@ async function processar() {
       texto += conteudo.items.map(i => i.str).join(" ") + " ";
     }
 
-    // 🔍 EXTRAÇÕES MELHORADAS
+    console.log("TEXTO COMPLETO:", texto);
 
-    let valor = texto.match(/R\$ ?\d+[.,]\d+/i);
+    // 🔥 NORMALIZA TEXTO
+    texto = texto.replace(/\s+/g, " ");
 
-    let faturamento = texto.match(
-      /(faturamento|emissão)[^\d]*(\d{2}\/\d{2}\/\d{4})/i
-    );
+    // =========================
+    // 🎯 EXTRAÇÃO INTELIGENTE
+    // =========================
 
-    let consumo = texto.match(
-      /(consumo|energia)[^\d]*(\d+[.,]?\d*)\s?(kWh|m³|m3)/i
-    );
+    // 💰 VALOR TOTAL (último TOTAL)
+    let valores = [...texto.matchAll(/TOTAL\s+([\d.,]+)/gi)];
+    let valorTotal = valores.length ? valores[valores.length - 1][1] : "";
 
-    let demandaContratada = texto.match(
-      /(demanda contratada)[^\d]*(\d+[.,]?\d*)/i
-    );
+    // 🔌 UC (Instalação)
+    let uc = texto.match(/Instalação nº\s*(\d+)/i);
 
-    let demandaConsumida = texto.match(
-      /(demanda (medida|consumida|faturada))[^\d]*(\d+[.,]?\d*)/i
-    );
+    // 📅 Data faturamento
+    let data = texto.match(/Data do Documento\s*(\d{2}\/\d{2}\/\d{4})/i);
+
+    // ⚡ CONSUMO REAL (pega tabela correta)
+    let consumoTabela = texto.match(/FEV\/\d{2}\s+[\d.,]+\s+([\d.,]+)\s+([\d.,]+)/);
+
+    let consumoPonta = consumoTabela ? consumoTabela[1] : "";
+    let consumoForaPonta = consumoTabela ? consumoTabela[2] : "";
+
+    // 📈 Demanda contratada (fixa no topo)
+    let demContratada = texto.match(/Demanda - KW\s*([\d.,]+)/i);
+
+    // 📉 Demanda medida REAL (linha correta)
+    let demMedida = texto.match(/DEMANDA KW\s+([\d.,]+)/i);
 
     dados.push({
       arquivo: file.name,
-      valor: valor ? valor[0] : "",
-      faturamento: faturamento ? faturamento[2] : "",
-      consumo: consumo ? consumo[2] + " " + consumo[3] : "",
-      demanda_contratada: demandaContratada ? demandaContratada[2] : "",
-      demanda_consumida: demandaConsumida ? demandaConsumida[3] : ""
+      valor_total: valorTotal,
+      unidade_consumidora: uc ? uc[1] : "",
+      data_faturamento: data ? data[1] : "",
+      consumo_ponta: consumoPonta,
+      consumo_fora_ponta: consumoForaPonta,
+      demanda_contratada: demContratada ? demContratada[1] : "",
+      demanda_medida: demMedida ? demMedida[1] : ""
     });
   }
 
   gerarExcel(dados);
 
-  status.innerText = "✅ Concluído!";
+  status.innerText = "✅ EXTRAÇÃO COMPLETA!";
 }
 
 function gerarExcel(dados) {
   const ws = XLSX.utils.json_to_sheet(dados);
   const wb = XLSX.utils.book_new();
-
   XLSX.utils.book_append_sheet(wb, ws, "Faturas");
-
   XLSX.writeFile(wb, "resultado.xlsx");
 }
