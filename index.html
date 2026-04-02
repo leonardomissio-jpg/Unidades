@@ -1,87 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Pesquisa CEU</title>
-    <!-- TailwindCSS para deixar o visual bonito -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <title>Leitor de Faturas</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 p-8 font-sans">
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold text-center mb-8 text-blue-800">Resultados da Pesquisa CEU</h1>
-        
-        <!-- Cards de Resumo -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow p-6 border-t-4 border-blue-500">
-                <h3 class="text-gray-500 text-sm font-semibold uppercase tracking-wider">Total de Entrevistas</h3>
-                <p id="total-respostas" class="text-4xl font-bold text-gray-800 mt-2">...</p>
-            </div>
-        </div>
+<body>
 
-        <!-- Tabela de Dados -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entrevistador</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relação CEU</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Frequência</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-corpo" class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">Carregando dados da planilha do Google...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<div class="container">
+  <h1>📊 Leitor de Faturas</h1>
 
-    <script>
-        // ATENÇÃO: COLOQUE AQUI A URL QUE VOCÊ COPIOU DO APPS SCRIPT NO PASSO 2
-        const API_URL = 'COLE_AQUI_O_SEU_URL_DO_WEB_APP_DO_GOOGLE';
+  <div class="upload-box">
+    <input type="file" id="files" multiple>
+    <button onclick="processar()">Processar</button>
+  </div>
 
-        async function carregarDados() {
-            try {
-                const response = await fetch(API_URL);
-                const dados = await response.json();
-                
-                document.getElementById('total-respostas').textContent = dados.length;
-                
-                const tbody = document.getElementById('tabela-corpo');
-                tbody.innerHTML = ''; 
-                
-                if (dados.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">Nenhuma resposta encontrada.</td></tr>';
-                    return;
-                }
+  <p id="status"></p>
+</div>
 
-                // Inverte para exibir as entrevistas mais novas primeiro
-                dados.reverse().forEach(linha => {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-gray-50 transition-colors';
-                    
-                    // As chaves precisam ser EXATAMENTE os nomes das colunas da planilha
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Carimbo de data/hora'] || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${linha['NOME ENTREVISTADOR [insira seu nome]'] || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Qual sua relação com o CEU:'] || '-'}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">${linha['Frequência com que você vem ao CEU?'] || '-'}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } catch (error) {
-                document.getElementById('tabela-corpo').innerHTML = `
-                    <tr><td colspan="4" class="px-6 py-4 text-center text-red-500 font-medium">Erro ao carregar os dados. Verifique a URL do Google.</td></tr>
-                `;
-            }
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="script.js"></script>
 
-        carregarDados();
-    </script>
 </body>
 </html>
